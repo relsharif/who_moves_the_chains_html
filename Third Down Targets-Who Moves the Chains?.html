@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Third Down Targets: Who Moves the Chains</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0D1117;color:#E6EDF3;font-family:'IBM Plex Sans',sans-serif;line-height:1.6;min-height:100vh}
+  .container{max-width:1100px;margin:0 auto;padding:48px 24px}
+  .hero{border-bottom:1px solid #21262D;padding-bottom:40px;margin-bottom:48px}
+  .hero-tag{display:inline-block;background:#238636;color:white;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:20px}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);line-height:0.95;color:#E6EDF3;letter-spacing:1px;margin-bottom:16px}
+  h1 span{color:#3FB950}
+  .hero-sub{font-size:17px;color:#8B949E;max-width:680px;margin-bottom:32px;line-height:1.7}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#484F58;letter-spacing:0.5px}
+  .stats-bar{display:flex;background:#161B22;border:1px solid #30363D;border-radius:10px;overflow:hidden;margin-bottom:48px}
+  .stat-item{flex:1;padding:20px 24px;border-right:1px solid #30363D;text-align:center}
+  .stat-item:last-child{border-right:none}
+  .stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#E6EDF3;line-height:1;display:block;margin-bottom:4px}
+  .stat-num.green{color:#3FB950}
+  .stat-label{font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;font-family:'IBM Plex Mono',monospace}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:#E6EDF3;margin-bottom:6px}
+  .section-sub{font-size:13px;color:#8B949E;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+  .section-intro{font-size:15px;color:#8B949E;line-height:1.8;margin-bottom:24px}
+  .method-box{background:#161B22;border:1px solid #30363D;border-left:3px solid #1F6FEB;border-radius:6px;padding:20px 24px;margin-bottom:40px;font-size:14px;color:#8B949E;line-height:1.7}
+  .method-box strong{color:#E6EDF3}
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid #30363D;margin-bottom:48px}
+  table{width:100%;border-collapse:collapse}
+  thead th{background:#161B22;padding:12px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8B949E;font-weight:600;border-bottom:1px solid #30363D;white-space:nowrap}
+  thead th.primary{color:#3FB950}
+  tbody tr{border-bottom:1px solid #21262D;transition:background 0.15s}
+  tbody tr:last-child{border-bottom:none}
+  tbody tr:hover{background:#1C2128}
+  tbody td{padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:13px}
+  .legend{display:flex;gap:20px;margin-bottom:32px;flex-wrap:wrap}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#8B949E}
+  .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .cards{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+  .analysis{margin-bottom:48px}
+  .analysis p{font-size:15px;color:#8B949E;line-height:1.8;margin-bottom:16px}
+  .analysis p strong{color:#E6EDF3}
+  .callout{background:#161B22;border:1px solid #E3B341;border-radius:8px;padding:16px 20px;margin:24px 0;font-size:15px;color:#E3B341;font-style:italic;line-height:1.7}
+  .footer{border-top:1px solid #21262D;padding-top:24px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#484F58;line-height:1.8}
+  .update-badge{display:inline-block;background:#1C2128;border:1px solid #E3B341;color:#E3B341;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;letter-spacing:1px;vertical-align:middle;margin-left:8px}
+  .placeholder{background:#161B22;border:1px dashed #30363D;border-radius:8px;padding:16px 20px;margin-bottom:16px;font-size:13px;color:#484F58;font-family:'IBM Plex Mono',monospace}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-tag">Receiver Intelligence</div>
+    <h1>Third Down Targets: <br> Who Moves the <span>Chains</span>?</h1>
+    <p class="meta" style="color:#E6EDF3">Rami Elsharif · April 9, 2026</p><br>
+    <p class="hero-sub">Free agency opened on March 11th, but the roster-building window is far from closed. Trades, late signings, and post-draft additions will continue to reshape rosters well into the summer as teams prepare for spring practice and training camp. One area driving front office activity across the league is third-down efficiency. In today's pass-first NFL, the receiver who can consistently move the chains on third down is among the most valuable and most sought-after assets on the market. This analysis evaluates 100 wide receivers across three seasons of regular season data (2023-2025), ranking them by a composite of first-down conversion rate, EPA per target, and drop rate. The result is a field-tested look at who actually delivers when it matters most and what it will cost to get them.</p>
+
+  <div class="stats-bar">
+    <div class="stat-item"><span class="stat-num">100</span><span class="stat-label">WRs Qualified</span></div>
+    <div class="stat-item"><span class="stat-num green">30+</span><span class="stat-label">Target Threshold</span></div>
+    <div class="stat-item"><span class="stat-num">REG</span><span class="stat-label">Season Type</span></div>
+    <div class="stat-item"><span class="stat-num">2023-25</span><span class="stat-label">Seasons</span></div>
+  </div>
+ 
+  <div class="method-box">
+    <strong>Methodology:</strong> Rankings are a weighted composite of three metrics:
+    <strong>First Down Rate (50%)</strong>, the primary signal of third-down value.
+    <strong>EPA per Target (35%)</strong>, efficiency beyond simple yardage.
+    <strong>Drop Rate (15%)</strong>, a reliability penalty from PFR charting data.
+    A minimum of 30 third-down targets over the three-season window is required for inclusion.
+    Drop rate shows low year-over-year correlation in the research literature, suggesting it reflects situational variance as opposed to a fixed receiver trait. This is why it carries 15% weight in the composite rather than a higher share.
+  </div>
+
+  <div style="break-after: page; page-break-after: always; clear: both;"></div>
+
+  <h2>The Rankings</h2>
+  <div class="section-sub">Top 20 wide receivers by third-down composite score, 2023-2025 · Contracts as of March 2026</div>
+  <div class="legend">
+    <div class="legend-item"><div class="dot" style="background:#3FB950"></div>Elite</div>
+    <div class="legend-item"><div class="dot" style="background:#E6EDF3"></div>Average</div>
+    <div class="legend-item"><div class="dot" style="background:#DA3633"></div>Below average</div>
+    <div class="legend-item"><div class="dot" style="background:#E3B341"></div>Top 3 rank badge</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th><th>Player</th><th>3rd Dn Tgts</th><th>Catch Rate</th>
+          <th class="primary">1st Down Rate</th><th>EPA / Target</th>
+          <th>Drop Rate</th><th>APY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center"><span style="background:#E3B341;color:#0D1117;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#1</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Brandon Aiyuk</td>
+          <td style="text-align:center;color:#8B949E">42</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">57.1%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:700;font-size:15px">57.1%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.24</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.6%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$30.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#E3B341;color:#0D1117;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#2</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Ricky Pearsall *</td>
+          <td style="text-align:center;color:#8B949E">31</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">71.0%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:700;font-size:15px">61.3%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.13</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">0.0%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$3.1M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#E3B341;color:#0D1117;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#3</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">KaVontae Turpin</td>
+          <td style="text-align:center;color:#8B949E">43</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">67.4%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:700;font-size:15px">58.1%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.34</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">12.5%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$4.5M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#4</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Tee Higgins</td>
+          <td style="text-align:center;color:#8B949E">83</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">61.4%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">54.2%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.20</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">5.2%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$28.8M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#5</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Tyreek Hill</td>
+          <td style="text-align:center;color:#8B949E">95</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">60.0%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">53.7%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.21</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">5.3%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">Free Agent</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#6</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Romeo Doubs</td>
+          <td style="text-align:center;color:#8B949E">71</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">64.8%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">53.5%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.12</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">4.4%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$17.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#7</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Jauan Jennings</td>
+          <td style="text-align:center;color:#8B949E">85</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">67.1%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">51.8%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.00</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">2.1%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">Free Agent</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#8</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Jaylen Waddle</td>
+          <td style="text-align:center;color:#8B949E">66</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">65.2%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">51.5%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.13</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">4.3%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$28.2M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#9</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Nico Collins</td>
+          <td style="text-align:center;color:#8B949E">101</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">70.3%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">49.5%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.05</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.2%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$24.2M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#1F6FEB;color:#ffffff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#10</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">A.J. Brown</td>
+          <td style="text-align:center;color:#8B949E">102</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">69.6%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">51.0%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.11</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">3.9%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$32.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#11</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Justin Watson</td>
+          <td style="text-align:center;color:#8B949E">36</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">63.9%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">52.8%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.23</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">7.5%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$2.5M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#12</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">CeeDee Lamb</td>
+          <td style="text-align:center;color:#8B949E">115</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">66.1%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">51.3%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.12</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">4.8%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$34.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#13</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Malik Nabers</td>
+          <td style="text-align:center;color:#8B949E">35</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">68.6%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">48.6%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.16</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">2.9%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$7.3M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#14</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Allen Lazard</td>
+          <td style="text-align:center;color:#8B949E">31</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">51.6%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">51.6%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.26</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">7.5%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">Free Agent</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#15</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Chris Godwin Jr.</td>
+          <td style="text-align:center;color:#8B949E">85</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">68.2%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:700;font-size:15px">55.3%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">0.95</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">3.1%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$22.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#16</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Puka Nacua</td>
+          <td style="text-align:center;color:#8B949E">108</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">67.6%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">50.9%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.05</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">5.0%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$1.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#17</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Andrei Iosivas</td>
+          <td style="text-align:center;color:#8B949E">30</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">56.7%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">50.0%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.29</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">8.4%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$1.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#18</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Terry McLaurin</td>
+          <td style="text-align:center;color:#8B949E">87</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">54.0%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:700;font-size:15px">48.3%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.03</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">2.6%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$29.0M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#19</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Alec Pierce</td>
+          <td style="text-align:center;color:#8B949E">54</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">48.1%</td>
+          <td style="text-align:center;color:#DA3633;font-weight:700;font-size:15px">44.4%</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">1.30</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">2.7%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$28.5M</td>
+        </tr>
+        <tr>
+          <td style="text-align:center"><span style="background:#21262D;color:#E6EDF3;padding:2px 8px;border-radius:12px;font-weight:700;font-size:13px">#20</span></td>
+          <td style="font-weight:700;color:#E6EDF3;font-size:14px">Mack Hollins</td>
+          <td style="text-align:center;color:#8B949E">32</td>
+          <td style="text-align:center;color:#DA3633;font-weight:600">53.1%</td>
+          <td style="text-align:center;color:#DA3633;font-weight:700;font-size:15px">46.9%</td>
+          <td style="text-align:center;color:#E6EDF3;font-weight:600">1.05</td>
+          <td style="text-align:center;color:#3FB950;font-weight:600">2.1%</td>
+          <td style="text-align:center;color:#E3B341;font-weight:600">$4.2M</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="break-after: page; page-break-after: always; clear: both;"></div>
+  
+<div class="analysis">
+    <h2>The Story</h2>
+    <p class="section-intro">The numbers tell part of the story. Here is what stands out when you look closer.</p>
+
+    <p><strong>Brandon Aiyuk tops the composite rankings</strong> and the numbers are genuinely elite: a 57.1% first-down rate, 1.24 EPA per target, and a 1.6% drop rate that is the cleanest in this entire analysis. However, his situation is complicated. He suffered a torn ACL in October 2024 and missed the entire 2025 season. His departure from San Francisco is vitually confirmed, making him one of the most intriguing names on the trade and free agency market. A GM acquiring him is betting on an injury recovery, and whatever his actual acquisition cost turns out to be, it will come with significant risk attached. The production before the injury was undeniable, as is the uncertainty of signing him post injury.</p>
+
+    <p><strong>Ricky Pearsall at $3.1M APY is the standout value in the data,</strong> posting a 61.3% first-down rate that is the highest in the top 20. He is still on his rookie deal and the sample is thinner at 31 targets, but the efficiency is impossible to dismiss. His 1.13 EPA per target is solid and his catch rate of 71.0% leads the entire analysis. Any team that can add Pearsall as a complementary piece is getting elite third-down production at a fraction of market rate. The small sample is a reason for caution.</p>
+
+    <p><strong>KaVontae Turpin ranks third in the composite at just $4.5M APY</strong> and his numbers jump off the page at that price. A 58.1% first-down rate, 67.4% catch rate, and 1.34 EPA per target are legitimate top-five production. The glaring caveat is a 12.5% drop rate, the worst in the top 25 by a significant margin, and a first-down rate that has declined every season: 75.0% in 2023, 58.8% in 2024, 42.9% in 2025. He is under contract in Dallas through 2027 and not available in the current window, but he is worth tracking. Add in his value as one of the most dangerous return specialists in the league (he led the NFL in kickoff return yards in 2025) and the full package is compelling if the drop rate can be addressed.</p>
+
+    <p><strong>Tee Higgins has spent his career with Ja'Marr Chase in Cincinnati,</strong> which has cost him targets, recognition, and probably a number of All-Pro conversations he deserved. A 54.2% first-down rate and 1.20 EPA per target across 83 third-down targets are wide receiver one numbers. His 5.2% drop rate sits within the average range and is not a disqualifying concern. At 27 years old, any team that acquires him is getting a legitimate threat added to their offense.</p>
+
+    <p><strong>A.J. Brown ranks tenth in the composite with the largest sample of any receiver in the analysis,</strong> posting a 51.0% first-down rate and 1.11 EPA per target across 102 third-down targets. His 69.6% catch rate is among the highest in the top 10 and his 3.9% drop rate is clean. Brown has reportedly requested a trade from Philadelphia on multiple occasions, and several league executives expect a deal to materialize after June 1 when the Eagles' dead cap obligation drops significantly. At $32M APY he is the most expensive receiver on this list, but for a GM who needs not just third-down help but a true wide receiver one, the combination of volume, efficiency, and experience across more than 100 opportunities is difficult to find elsewhere.</p>
+
+    <p><strong>Jauan Jennings is one of the more reliable third-down receivers in this analysis.</strong> A 51.8% first-down rate across 85 targets is a large, consistent sample, and his 2.1% drop rate is the second lowest in the top 10. He is not a wide receiver one, but he is a proven starter who can win in critical moments and hold on to the football when it matters. Three weeks into free agency he remains unsigned, with his asking price of $15-20M per year creating a standoff with a market that saw him primarily as a complementary piece in San Francisco. For a GM who needs a dependable third-down receiver without breaking the bank at the top of the market, Jennings is the most interesting conversation available right now.</p>
+
+    <p><strong>Justin Watson is one of the quietest names in this analysis.</strong> His 52.8% first-down rate and 1.23 EPA per target, seventh among all 100 qualifying receivers, are legitimate, not just serviceable. The 7.5% drop rate is above the top-25 median and warrants attention. His sample covers only two seasons after a 2025 injury ended his year early, and his efficiency declined from a strong 2023 to a more ordinary 2024, so the trend bears watching. Now with Houston on a 2-year, $2.5M APY deal, he is not available, but at that price point he is exactly the kind of low-cost yet efficient depth piece that teams could use.
+    </p>
+  </div>
+
+  <div style="break-after: page; page-break-after: always; clear: both;"></div>
+  
+<h2>Value Targets</h2>
+  <p class="section-intro">These are role players who can contribute on third down without putting a significant dent in your salary cap.</p>
+  <div class="section-sub">Top-25 composite performers earning under $15M APY</div>
+  <div class="cards">
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#2 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">Ricky Pearsall</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">61.3%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.13</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">$3.1M</span>
+      </div>
+    </div>
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#3 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">KaVontae Turpin</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">58.1%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.34</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">$4.5M</span>
+      </div>
+    </div>
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#11 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">Justin Watson</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">52.8%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.23</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">$2.5M</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Premium Targets</h2>
+  <p class="section-intro">If you want a receiver who can win on third down and line up as a genuine wide receiver one, these are the names worth the conversation.</p>
+  <div class="section-sub">High-cost acquisitions with wide receiver one upside</div>
+  <div class="cards">
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#4 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">Tee Higgins</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">54.2%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.20</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">$28.8M</span>
+      </div>
+    </div>
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#10 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">A.J. Brown</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">51.0%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">1.11</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">$32.0M</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Wild Card</h2>
+  <p class="section-intro">The most undervalued name on the board is often the one still available.</p>
+  <div class="section-sub">Names worth the conversation before the draft changes the market</div>
+  <div class="cards">
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#7 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">Jauan Jennings</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">51.8%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#E6EDF3;font-weight:700;font-size:13px">1.00</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">Drop Rate</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">2.1%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">Free Agent</span>
+      </div>
+    </div>
+    <div style="background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px 20px;flex:1;min-width:180px;max-width:320px">
+      <div style="font-size:11px;color:#8B949E;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">#1 Overall</div>
+      <div style="font-size:16px;font-weight:800;color:#E6EDF3;margin-bottom:10px">Brandon Aiyuk</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">1st Down Rate</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">57.1%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">EPA / Target</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.24</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="color:#8B949E;font-size:12px">Drop Rate</span>
+        <span style="color:#3FB950;font-weight:700;font-size:13px">1.6%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid #30363D;padding-top:8px;margin-top:8px">
+        <span style="color:#8B949E;font-size:12px">APY</span>
+        <span style="color:#E3B341;font-weight:800;font-size:14px">TBD **</span>
+      </div>
+    </div>
+  </div>
+
+<div style="break-after: page; page-break-after: always; clear: both;"></div>
+
+  <div class="analysis">
+    <h2>The Bottom Line</h2>
+    <p>Third-down efficiency does not look the same for every roster. The right target depends on where you are.</p>
+    <p>If your priority is adding a reliable third-down option without significant cap implications, the value targets in this analysis deliver production at a price the market has not fully recognized. Pearsall, Turpin, and Watson are not headlines, but they move the chains and they do it cheaply.</p>
+    <p>If you need a receiver who can win on third down and function as a genuine wide receiver one, the premium targets are worth the cost of the conversation. Tee Higgins and A.J. Brown both have situations in flux and production that is difficult to find elsewhere at any price. You will pay for them, in contract value, trade capital, or both.</p>
+    <p>If you are looking for something in between, the wild cards are exactly that. Jennings is a proven starter asking for more than the market currently thinks he is worth, which means there is a deal to be made for a patient front office. Aiyuk has the best numbers in this entire analysis and a situation complicated enough that he may come at a fraction of his pre-injury value. Both carry real risk. Both carry real upside. That is what a wild card is.</p>
+    <p>The data tells you who converts. The decision is yours.</p>
+  </div>
+
+  <div class="footer">
+    <!-- Data sourced from nflverse (play-by-play) and Pro Football Reference (drop charting).<br>
+    Analysis covers 2023, 2024, and 2025 regular seasons only.<br>
+    Contract data updated March 2026. Guaranteed figures reflect guaranteed at signing only.<br>
+    Composite score: First Down Rate (50%) + EPA per Target (35%) + Drop Rate inverted (15%).<br> -->
+    * Ricky Pearsall: 31 third-down targets over two seasons. Efficiency metrics are strong but should be interpreted with caution given limited volume.<br>
+    ** Brandon Aiyuk: contract guarantees voided by the 49ers. Actual acquisition cost is pending trade or release and will differ from listed APY.
+  </div>
+
+</div>
+</body>
+</html>
